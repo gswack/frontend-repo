@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Make Reservation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ribbon"></div>    
+        <div class="form-container">
+        
+            <h1>Book now</h1>
+        
+            <form id="reservationForm"> 
+                <label>Hotel:</label>
+                <select id="hotelSelect"></select>
+
+                <label>Full Name:</label>
+                <input type="text" id="fullName" name="name" required>
+
+                <label>email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label>Check-In:</label>
+                <input type="date" id="checkIn" name="checkIn" required>
+
+                <label>Check-Out:</label>
+                <input type="date" id="checkOut" name="checkOut" required>
+
+                <button type="submit">Reserve</button>
+            </form>
+
+            <p id="message"></p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>     
