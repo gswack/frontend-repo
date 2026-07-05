@@ -3,7 +3,7 @@ name: Frontend Docker Build and Push
 on:
   push:
     branches:
-      - final_project
+      - dev
 
 jobs:
   build-and-push:
