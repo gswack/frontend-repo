@@ -28,6 +28,7 @@ jobs:
           -replace 'frontend:.*', 'frontend:${{ github.event.workflow_run.head_sha }}' `
           | Set-Content kubernetes/frontend/deployment.yaml
 
+          
       - name: Commit changes
         run: |
           git add .
