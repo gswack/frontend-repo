@@ -20,13 +20,14 @@ jobs:
           repository: gswack/infra-repo
           token: ${{ secrets.PIPELINE_TOKEN }}
           ref: dev
+          path: infra-repo
 
       - name: Update frontend image tag
         shell: powershell
         run: |
-          (Get-Content kubernetes/frontend/deployment.yaml) `
+          (Get-Content infra-repo/kubernetes/frontend/frontend-deployment.yaml) `
           -replace 'frontend:.*', 'frontend:${{ github.event.workflow_run.head_sha }}' `
-          | Set-Content kubernetes/frontend/deployment.yaml
+          | Set-Content infra-repo/kubernetes/frontend/frontend-deployment.yaml
 
       - name: Commit changes
         run: |
