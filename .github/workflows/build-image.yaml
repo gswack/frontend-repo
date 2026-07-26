@@ -26,7 +26,6 @@ jobs:
         run: |
           docker build -t ${{ secrets.NEXUS_REGISTRY }}/frontend:${{ steps.image.outputs.tag }} .
 
-          
       - name: Push Docker image
         run: |
           docker push ${{ secrets.NEXUS_REGISTRY }}/frontend:${{ steps.image.outputs.tag }}
