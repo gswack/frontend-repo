@@ -1,0 +1,35 @@
+name: Pipeline 2 - Frontend Deployment Preparation
+
+on:
+  workflow_run:
+    workflows:
+      - "Frontend Docker Build and Push"
+    types:
+      - completed
+
+jobs:
+  update-infra:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout infra-repo
+        uses: actions/checkout@v4
+        with:
+          repository: gswack/infra-repo
+          token: ${{ secrets.PIPELINE_TOKEN }}
+          ref: dev
+
+      - name: Update frontend image tag
+        shell: powershell
+        run: |
+          (Get-Content kubernetes/frontend/deployment.yaml) `
+          -replace 'frontend:.*', 'frontend:${{ github.event.workflow_run.head_sha }}' `
+          | Set-Content kubernetes/frontend/deployment.yaml
+
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m "Update frontend image tag to ${{ github.event.workflow_run.head_sha }}"
+          git push origin dev
