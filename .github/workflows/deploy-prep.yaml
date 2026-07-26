@@ -25,12 +25,55 @@ jobs:
       - name: Update frontend image tag
         shell: powershell
         run: |
-          (Get-Content infra-repo/kubernetes/frontend/frontend-deployment.yaml) `
-          -replace 'frontend:.*', 'frontend:${{ github.event.workflow_run.head_sha }}' `
-          | Set-Content infra-repo/kubernetes/frontend/frontend-deployment.yaml
+            cd infra-repo
+            (Get-Content kubernetes/frontend/frontend-deployment.yaml) `
+            -replace 'nexus\.nexus\.svc\.cluster\.local:8082/frontend:.*', `
+            'nexus.nexus.svc.cluster.local:8082/frontend:${{ github.event.workflow_run.head_sha }}' `
+            | Set-Content kubernetes/frontend/frontend-deployment.yaml
 
-      - name: Commit changes
+      - name: Commit and push changes
+        shell: powershell
         run: |
-          git add .
+          cd infra-repo
+
+          git config --global --add safe.directory "$pwd"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add kubernetes/frontend/frontend-deployment.yaml
+
           git commit -m "Update frontend image tag to ${{ github.event.workflow_run.head_sha }}"
+
           git push origin dev
+
+      - name: Open Pull Request
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ secrets.PIPELINE_TOKEN }}
+        run: |
+          gh pr create `
+            --repo gswack/infra-repo `
+            --base main `
+            --head dev `
+            --title "Deploy frontend ${{ github.event.workflow_run.head_sha }}" `
+            --body "Automated PR: update frontend image tag to ${{ github.event.workflow_run.head_sha }}"
+
+      - name: Auto-merge Pull Request
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ secrets.PIPELINE_TOKEN }}
+        run: |
+          $PR_NUMBER = gh pr list `
+            --repo gswack/infra-repo `
+            --head dev `
+            --json number `
+            --jq ".[0].number"
+
+          if (-not $PR_NUMBER) {
+            throw "No open PR found for dev branch."
+          }
+
+          gh pr merge $PR_NUMBER `
+            --repo gswack/infra-repo `
+            --merge `
+            --admin
