@@ -13,10 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - name: Get Image Tag
+        id: image
+        shell: powershell
+        run: |
+          "tag=${{ github.sha }}" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Login to Nexus Docker Registry
         run: docker login "${{ secrets.NEXUS_REGISTRY }}" -u "${{ secrets.NEXUS_USERNAME }}" -p "${{ secrets.NEXUS_PASSWORD }}"
@@ -24,9 +25,9 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            -t ${{ secrets.NEXUS_REGISTRY }}/frontend:${{ github.sha }} \
+            -t ${{ secrets.NEXUS_REGISTRY }}/frontend:${{ steps.image.outputs.tag }} \
             .
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.NEXUS_REGISTRY }}/frontend:${{ github.sha }}
+          docker push ${{ secrets.NEXUS_REGISTRY }}/frontend:${{ steps.image.outputs.tag }}
