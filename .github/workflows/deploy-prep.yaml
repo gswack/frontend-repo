@@ -22,6 +22,21 @@ jobs:
           ref: dev
           path: infra-repo
 
+      - name: Verify image exists in Nexus
+        shell: powershell
+        run: |
+          $tag = "${{ github.event.workflow_run.head_sha }}"
+
+          $result = curl.exe `
+            -u "${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}" `
+            http://localhost:8082/v2/frontend/tags/list
+
+          if ($result -notmatch $tag) {
+              throw "Image frontend:$tag does not exist in Nexus"
+          }
+
+          Write-Host "Image frontend:$tag exists in Nexus"
+
       - name: Update frontend image tag
         shell: powershell
         run: |
