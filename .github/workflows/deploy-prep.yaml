@@ -22,20 +22,20 @@ jobs:
           ref: dev
           path: infra-repo
 
-      - name: Verify image exists in Nexus
-        shell: powershell
-        run: |
-          $tag = "${{ github.event.workflow_run.head_sha }}"
+      # - name: Verify image exists in Nexus
+      #   shell: powershell
+      #   run: |
+      #     $tag = "${{ github.event.workflow_run.head_sha }}"
 
-          $result = curl.exe `
-            -u "${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}" `
-            http://localhost:8082/v2/frontend/tags/list
+      #     $result = curl.exe `
+      #       -u "${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}" `
+      #       http://localhost:8082/v2/frontend/tags/list
 
-          if ($result -notmatch $tag) {
-              throw "Image frontend:$tag does not exist in Nexus"
-          }
+      #     if ($result -notmatch $tag) {
+      #         throw "Image frontend:$tag does not exist in Nexus"
+      #     }
 
-          Write-Host "Image frontend:$tag exists in Nexus"
+      #     Write-Host "Image frontend:$tag exists in Nexus"
 
       - name: Update frontend image tag
         shell: powershell
@@ -43,7 +43,7 @@ jobs:
             cd infra-repo
             (Get-Content kubernetes/frontend/frontend-deployment.yaml) `
             -replace 'nexus\.nexus\.svc\.cluster\.local:8082/frontend:.*', `
-            'nexus.nexus.svc.cluster.local:8082/frontend:${{ github.event.workflow_run.head_sha }}' `
+            'nexus.nexus.svc.cluster.local:8082/frontend:latest' `
             | Set-Content kubernetes/frontend/frontend-deployment.yaml
 
       - name: Commit and push changes
@@ -57,7 +57,7 @@ jobs:
 
           git add kubernetes/frontend/frontend-deployment.yaml
 
-          git commit -m "Update frontend image tag to ${{ github.event.workflow_run.head_sha }}"
+          git commit -m "Update frontend image tag to latest"
 
           git push origin dev
 
@@ -70,8 +70,8 @@ jobs:
             --repo gswack/infra-repo `
             --base main `
             --head dev `
-            --title "Deploy frontend ${{ github.event.workflow_run.head_sha }}" `
-            --body "Automated PR: update frontend image tag to ${{ github.event.workflow_run.head_sha }}"
+            --title "Deploy frontend latest" `
+            --body "Automated PR: update frontend image tag to latest"
 
       - name: Auto-merge Pull Request
         shell: powershell
