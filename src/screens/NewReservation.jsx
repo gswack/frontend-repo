@@ -7,7 +7,7 @@ export default function NewReservation() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/hotels")
+    fetch("/hotels")
       .then(res => res.json())
       .then(data => setHotels(data));
   }, []);
@@ -23,7 +23,7 @@ export default function NewReservation() {
       checkOut: e.target.checkOut.value
     };
 
-    const res = await fetch("http://localhost:3000/reservations", {
+    const res = await fetch("/reservations", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(reservation)

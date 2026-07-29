@@ -6,7 +6,7 @@ export default function ReservationLookup() {
   const [message, setMessage] = useState("");
 
   const lookup = async () => {
-    const res = await fetch(`http://localhost:3000/reservations/lookup?query=${query}`);
+    const res = await fetch(`/reservations/lookup?query=${query}`);
     const data = await res.json();
 
     if (!data.found) {
@@ -20,7 +20,7 @@ export default function ReservationLookup() {
   };
 
   const cancelReservation = async () => {
-    await fetch(`http://localhost:3000/reservations/${reservation._id}`, {
+    await fetch(`/reservations/${reservation._id}`, {
       method: "DELETE"
     });
 
