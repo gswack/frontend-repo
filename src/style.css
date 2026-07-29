@@ -7,7 +7,7 @@ body {
 
 /* NAVY RIBBON */
 .ribbon {
-  background: #001f3f; /* Navy blue */
+  background: #c1cedb; /* Navy blue */
   padding: 40px 0;
   width: 100%;
   display: flex;
@@ -16,7 +16,7 @@ body {
 
 /* FORM CONTAINER */
 .form-container {
-  background: white;
+  background: rgb(223, 215, 215);
   padding: 25px;
   border-radius: 10px;
   width: 350px;
@@ -56,6 +56,17 @@ button {
 
 button:hover {
   background: #003366;
+}
+
+select {
+  background-color: white;
+  color: #001f3f;
+  border: 1px solid #001f3f;
+}
+
+select option {
+  background-color: white;
+  color: #001f3f;
 }
 
 #message {
