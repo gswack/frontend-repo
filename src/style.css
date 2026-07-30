@@ -1,13 +1,15 @@
+/* GLOBAL */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #11013f;
   margin: 0;
   padding: 0;
+  color: #001f3f;
 }
 
 /* NAVY RIBBON */
 .ribbon {
-  background: #c1cedb; /* Navy blue */
+  background: #c1cedb;
   padding: 40px 0;
   width: 100%;
   display: flex;
@@ -20,6 +22,8 @@ body {
   padding: 25px;
   border-radius: 10px;
   width: 350px;
+  margin: 0 auto;
+  margin-top: -20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
@@ -28,49 +32,93 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* LABELS */
 label {
   display: block;
   margin-top: 12px;
   font-weight: bold;
 }
 
-input, select {
+/* INPUTS & SELECTS */
+input, select, textarea {
   width: 100%;
   padding: 8px;
   margin-top: 6px;
-  border: 1px solid #ccc;
   border-radius: 5px;
+  background-color: white;
+  color: #001f3f;
+  border: 1px solid #001f3f;
+  font-size: 14px;
 }
 
+/* FOCUS EFFECT */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #0078ff;
+  box-shadow: 0 0 4px rgba(0,120,255,0.5);
+}
+
+/* BUTTON */
 button {
   margin-top: 20px;
   padding: 10px;
   width: 100%;
-  background: #001f3f; /* Navy */
+  background: #001f3f;
   color: white;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+  transition: 0.2s ease;
 }
 
 button:hover {
   background: #003366;
 }
 
-select {
-  background-color: white;
-  color: #001f3f;
-  border: 1px solid #001f3f;
-}
-
-select option {
-  background-color: white;
-  color: #001f3f;
-}
-
+/* MESSAGE */
 #message {
   margin-top: 15px;
   text-align: center;
   font-weight: bold;
+}
+
+/* OPTIONAL: DARK MODE */
+.dark-mode {
+  background-color: #0a0a0a;
+  color: white;
+}
+
+.dark-mode .form-container {
+  background: #1e1e1e;
+}
+
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea {
+  background-color: #333;
+  color: white;
+  border-color: #888;
+}
+
+.dark-mode button {
+  background: #444;
+}
+
+.dark-mode button:hover {
+  background: #666;
+}
+
+.spinner {
+  margin: 20px auto;
+  border: 6px solid #ccc;
+  border-top: 6px solid #001f3f;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
 }

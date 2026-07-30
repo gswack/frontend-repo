@@ -5,34 +5,44 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="ribbon"></div>    
-        <div class="form-container">
-        
-            <h1>Book now</h1>
-        
-            <form id="reservationForm"> 
-                <label>Hotel:</label>
-                <select id="hotelSelect"></select>
+    <button onclick="toggleTheme()" style="position:absolute; top:10px; right:10px;">
+      Toggle Theme
+    </button>
 
-                <label>Full Name:</label>
-                <input type="text" id="fullName" name="name" required>
+    <div class="ribbon"></div>
 
-                <label>email:</label>
-                <input type="email" id="email" name="email" required>
+    <div class="form-container">
+        <h1>Book now</h1>
 
-                <label>Check-In:</label>
-                <input type="date" id="checkIn" name="checkIn" required>
+        <form id="reservationForm"> 
+            <label>Hotel:</label>
+            <select id="hotelSelect"></select>
+            <img id="hotelImage" src="" alt="Hotel preview" style="
+                width:100%; 
+                margin-top:15px; 
+                border-radius:8px; 
+                display:none;
+            ">
 
-                <label>Check-Out:</label>
-                <input type="date" id="checkOut" name="checkOut" required>
+            <label>Full Name:</label>
+            <input type="text" id="fullName" name="name" required>
 
-                <button type="submit">Reserve</button>
-            </form>
+            <label>Email:</label>
+            <input type="email" id="email" name="email" required>
 
-            <p id="message"></p>
-        </div>
+            <label>Check-In:</label>
+            <input type="date" id="checkIn" name="checkIn" required>
+
+            <label>Check-Out:</label>
+            <input type="date" id="checkOut" name="checkOut" required>
+
+            <button type="submit">Reserve</button>
+        </form>
+
+        <p id="message"></p>
+        <div id="spinner" class="spinner" style="display:none;"></div>
     </div>
 
     <script src="app.js"></script>
 </body>
-</html>     
+</html>
