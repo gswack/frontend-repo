@@ -61,12 +61,13 @@ export default function NewReservation() {
           <label>Hotel</label>
           <select
             name="hotel"
-            onChange={(e) => setSelectedHotel(e.target.value)}
+            onChange={(e) => {
+              const hotelName = e.target.options[e.target.selectedIndex].text;
+              setSelectedHotel(hotelName);
+            }}
           >
             {hotels.map((h) => (
-              <option key={h.id} value={h.id}>
-                {h.name}
-              </option>
+              <option key={h.id} value={h.id}>{h.name}</option>
             ))}
           </select>
 
