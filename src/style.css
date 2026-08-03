@@ -1,7 +1,7 @@
 /* GLOBAL */
 body {
   font-family: Arial, sans-serif;
-  background-color: #e4dbff;
+  background-color: #fdf5db;
   margin: 0;
   padding: 0;
   color: #001f3f;
@@ -9,7 +9,7 @@ body {
 
 /* NAVY RIBBON */
 .ribbon {
-  background: #c1cedb;
+  background: #e0e0e0;
   padding: 40px 0;
   width: 100%;
   display: flex;
