@@ -22,43 +22,29 @@ jobs:
           ref: dev
           path: infra-repo
 
-      # - name: Verify image exists in Nexus
-      #   shell: powershell
-      #   run: |
-      #     $tag = "${{ github.event.workflow_run.head_sha }}"
-
-      #     $result = curl.exe `
-      #       -u "${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}" `
-      #       http://localhost:8082/v2/frontend/tags/list
-
-      #     if ($result -notmatch $tag) {
-      #         throw "Image frontend:$tag does not exist in Nexus"
-      #     }
-
-      #     Write-Host "Image frontend:$tag exists in Nexus"
-
       - name: Update frontend image tag
         shell: powershell
         run: |
-            cd infra-repo
-            (Get-Content kubernetes/frontend/frontend-deployment.yaml) `
-            -replace 'nexus\.nexus\.svc\.cluster\.local:8082/frontend:.*', `
-            'nexus.nexus.svc.cluster.local:8082/frontend:latest' `
-            | Set-Content kubernetes/frontend/frontend-deployment.yaml
+          $tag = "${{ steps.tag.outputs.tag }}"
+
+          (Get-Content infra-repo/kubernetes/frontend/frontend-deployment.yaml) `
+          -replace 'host\.docker\.internal:8082/frontend:.*', "host.docker.internal:8082/frontend:$tag" |
+          Set-Content infra-repo/kubernetes/frontend/frontend-deployment.yaml
+
+      - name: Verify updated manifest
+        shell: powershell
+        run: |
+          Get-Content infra-repo/kubernetes/frontend/frontend-deployment.yaml | Select-String "image:"
 
       - name: Commit and push changes
         shell: powershell
         run: |
           cd infra-repo
-
           git config --global --add safe.directory "$pwd"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-
           git add kubernetes/frontend/frontend-deployment.yaml
-
           git commit -m "Update frontend image tag to latest"
-
           git push origin dev
 
       - name: Open Pull Request
