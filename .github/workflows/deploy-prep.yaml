@@ -22,10 +22,22 @@ jobs:
           ref: dev
           path: infra-repo
 
+      - name: Set image tag from workflow run
+        id: tag
+        shell: powershell
+        run: |
+          echo "tag=${{ github.event.workflow_run.head_sha }}" >> $env:GITHUB_OUTPUT
+
       - name: Update frontend image tag
         shell: powershell
         run: |
           $tag = "${{ steps.tag.outputs.tag }}"
+
+          if ([string]::IsNullOrWhiteSpace($tag)) {
+            throw "Image tag is empty. Cannot update deployment."
+          }
+
+          Write-Host "Updating frontend image to: $tag"
 
           (Get-Content infra-repo/kubernetes/frontend/frontend-deployment.yaml) `
           -replace 'host\.docker\.internal:8082/frontend:.*', "host.docker.internal:8082/frontend:$tag" |
