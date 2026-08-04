@@ -44,7 +44,7 @@ export default function ReservationLookup() {
   return (
     <div className="ribbon">
       <div className="form-container">
-        <h1>Reservation Lookup</h1>
+        <h2>Check Reservation</h2>
 
         <label>Full Name or Email</label>
         <input
