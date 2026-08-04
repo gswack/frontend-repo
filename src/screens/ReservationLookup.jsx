@@ -6,17 +6,30 @@ export default function ReservationLookup() {
   const [message, setMessage] = useState("");
 
   const lookup = async () => {
-    const res = await fetch(`/reservations/lookup?query=${query}`);
-    const data = await res.json();
+    try {
+      const res = await fetch(
+        `/reservations/lookup?query=${encodeURIComponent(query.trim())}`
+      );
 
-    if (!data.found) {
-      setReservation(null);
-      setMessage("No reservation found.");
-      return;
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      if (!data.found) {
+        setReservation(null);
+        setMessage("No reservation found.");
+        return;
+      }
+
+      setReservation(data.reservation);
+      setMessage("");
+
+    } catch (err) {
+      console.error("Lookup failed:", err);
+      setMessage("Unable to lookup reservation.");
     }
-
-    setReservation(data.reservation);
-    setMessage("");
   };
 
   const cancelReservation = async () => {
