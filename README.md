@@ -156,5 +156,24 @@ kubectl port-forward svc/frontend 3000:80 -n hotel-frontend
 Then:
 http://localhost:3000
 
+## UI Tests
+
+The frontend application uses Pytest with Playwright for end-to-end testing.
+
+Test location:
+tests/
+├── pages/
+│ └── login_page.py
+| └── lookuop_page.py
+├── test_ui/
+| ├── test_login.py
+└── conftest.py
+
+
+Run tests:
+
+```bash
+pytest tests -vv
+
 ## Author
 Gabriel Swack
