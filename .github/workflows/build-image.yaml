@@ -31,6 +31,13 @@ jobs:
         run: |
           pytest -vv
 
+      - name: Upload Playwright traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: test-results/
+          
       - name: Build Docker image
         run: |
           docker build -t ${{ secrets.NEXUS_REGISTRY }}/frontend:${{ steps.image.outputs.tag }} .
