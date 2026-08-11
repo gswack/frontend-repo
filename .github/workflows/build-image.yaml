@@ -6,6 +6,41 @@ on:
       - dev
 
 jobs:
+  test:
+    name: Run Pytest
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        python-version: [3.14]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Install uv and set up automated caching + Python version
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+
+      # Install project dependencies into the virtual environment
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+
+      # Execute pytest within the uv virtual environment
+      - name: Run test suite with Pytest
+        run: uv run pytest tests/ --junitxml=test-results.xml
+
+      # Upload test results artifact for CI reporting
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-results-${{ matrix.python-version }}
+          path: test-results.xml
+
   build-and-push:
     runs-on: self-hosted
 
@@ -21,22 +56,6 @@ jobs:
 
       - name: Login to Nexus Docker Registry
         run: docker login "${{ secrets.NEXUS_REGISTRY }}" -u "${{ secrets.NEXUS_USERNAME }}" -p "${{ secrets.NEXUS_PASSWORD }}"
-
-        # Pytest
-      - name: Install test dependencies
-        run: |
-          pip install -r requirements.txt
-
-      # - name: Run pytest
-      #   run: |
-      #     pytest -vv
-
-      - name: Upload Playwright traces
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-traces
-          path: test-results/
           
       - name: Build Docker image
         run: |
