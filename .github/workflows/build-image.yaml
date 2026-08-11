@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     name: Run Pytest
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.14]
@@ -22,7 +22,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           version: "latest"
-          enable-cache: true
+          enable-cache: false
           python-version: ${{ matrix.python-version }}
 
       # Install project dependencies into the virtual environment
@@ -42,7 +42,7 @@ jobs:
           path: test-results.xml
 
   build-and-push:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
