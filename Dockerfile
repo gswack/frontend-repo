@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npm ci --omit=dev
+RUN npm run build
 
 # runtime stage
 FROM nginx:stable-alpine
