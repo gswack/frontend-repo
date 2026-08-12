@@ -118,16 +118,6 @@ jobs:
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
           NEXUS_REGISTRY: ${{ secrets.NEXUS_REGISTRY }}
 
-      # - name: Debug registry
-      #   run: |
-      #     echo "${{ secrets.NEXUS_REGISTRY }}" | Out-File registry.txt
-      #     Get-Content registry.txt
-
-      # - name: Test Nexus login
-      #   run: |
-      #     docker logout host.docker.internal:8082
-      #     docker login "${{ secrets.NEXUS_REGISTRY }}" -u "${{ secrets.NEXUS_USERNAME }}" -p "${{ secrets.NEXUS_PASSWORD }}"
-
       - name: Test Nexus connectivity
         run: |
           curl -vk https://nexus.gswack.com/v2/
