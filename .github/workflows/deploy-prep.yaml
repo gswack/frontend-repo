@@ -29,11 +29,19 @@ jobs:
       - name: Update image tag in frontend-deployment.yaml
         run: |
           TAG="${{ steps.tag.outputs.tag }}"
-          sed -i "s|host\.docker\.internal:8082/frontend:.*|host.docker.internal:8082/frontend:${TAG}|g" infra-repo/kubernetes/frontend/frontend-deployment.yaml
+          sed -i "s|nexus\.gswack\.com/frontend:.*|nexus.gswack.com/frontend:${TAG}|g" \
+          infra-repo/kubernetes/frontend/frontend-deployment.yaml
 
       - name: Verify updated manifest
         run: |
           grep "image:" infra-repo/kubernetes/frontend/frontend-deployment.yaml
+
+      - name: Debug frontend deployment
+        run: |
+          cd infra-repo
+          grep -n "image:" kubernetes/frontend/frontend-deployment.yaml
+          git status
+          git diff -- kubernetes/frontend/frontend-deployment.yaml
 
       - name: Commit and push changes
         run: |
