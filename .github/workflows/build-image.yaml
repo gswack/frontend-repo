@@ -34,7 +34,7 @@ jobs:
 
       # Execute pytest within the uv virtual environment
       - name: Run test suite with Pytest
-        run: uv run pytest tests/ --junitxml=test-results.xml
+        run: uv run pytest tests/ -vv --junitxml=test-results.xml
 
       # Upload test results artifact for CI reporting
       - name: Upload test results
