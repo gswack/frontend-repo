@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+tests/pages/*
+tests/test_ui/*
+tests/__pycache__/*
+videos
+trace.zip
