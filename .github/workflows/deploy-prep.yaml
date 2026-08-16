@@ -24,7 +24,7 @@ jobs:
       - name: Get image tag
         id: tag
         run: |
-          echo "tag=${{ github.event.workflow_run.head_sha }}" >> $GITHUB_OUTPUT
+          echo "tag=v${{ github.event.workflow_run.run_number }}" >> $GITHUB_OUTPUT
 
       - name: Update image tag in frontend-deployment.yaml
         run: |
