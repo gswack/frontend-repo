@@ -93,30 +93,30 @@ jobs:
       - name: Get Image Tag
         id: image
         run: |
-          echo "tag=${{ github.sha }}" >> $GITHUB_OUTPUT
+          echo "tag=${{ github.run_number }}" >> $GITHUB_OUTPUT
 
-        # Debugging purposes, show the nexus registry secret value (masked in logs)
-      - name: Debug registry
-        run: |
-          echo "Registry: ${NEXUS_REGISTRY}"
-        env:
-          NEXUS_REGISTRY: ${{ secrets.NEXUS_REGISTRY }}
+        # Debugging purposes (commented out), show the nexus registry secret value (masked in logs)
+      # - name: Debug registry
+      #   run: |
+      #     echo "Registry: ${NEXUS_REGISTRY}"
+      #   env:
+      #     NEXUS_REGISTRY: ${{ secrets.NEXUS_REGISTRY }}
 
-      - name: Debug username length
-        run: |
-          echo "Username length: ${#NEXUS_USERNAME}"
-        env:
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      # - name: Debug username length
+      #   run: |
+      #     echo "Username length: ${#NEXUS_USERNAME}"
+      #   env:
+      #     NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
 
-      - name: Check secret lengths
-        run: |
-          echo "Username length: ${#NEXUS_USERNAME}"
-          echo "Password length: ${#NEXUS_PASSWORD}"
-          echo "Registry length: ${#NEXUS_REGISTRY}"
-        env:
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-          NEXUS_REGISTRY: ${{ secrets.NEXUS_REGISTRY }}
+      # - name: Check secret lengths
+      #   run: |
+      #     echo "Username length: ${#NEXUS_USERNAME}"
+      #     echo "Password length: ${#NEXUS_PASSWORD}"
+      #     echo "Registry length: ${#NEXUS_REGISTRY}"
+      #   env:
+      #     NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      #     NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      #     NEXUS_REGISTRY: ${{ secrets.NEXUS_REGISTRY }}
 
       - name: Test Nexus connectivity
         run: |
