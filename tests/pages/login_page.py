@@ -13,8 +13,6 @@ class LoginPage:
 
     def goto(self):
         self.page.goto("https://hotel.gswack.com")
-        # expect(self.page).to_have_url("https://hotel.gswack.com")
-        # expect(self.submit).to_be_visible()
 
     def login(self, hotel, user, email, checkin, checkout):
         self.hotel.select_option(hotel)
