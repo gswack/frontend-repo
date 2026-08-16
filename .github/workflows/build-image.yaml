@@ -93,7 +93,7 @@ jobs:
       - name: Get Image Tag
         id: image
         run: |
-          echo "tag=${{ github.run_number }}" >> $GITHUB_OUTPUT
+          echo "tag=v${{ github.run_number }}" >> $GITHUB_OUTPUT
 
         # Debugging purposes (commented out), show the nexus registry secret value (masked in logs)
       # - name: Debug registry
