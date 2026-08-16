@@ -147,3 +147,4 @@ jobs:
         run: |
           docker images | grep "${{ steps.image.outputs.tag }}"
           echo "Successfully verified that the image exists in the local Docker registry."
+          
