@@ -55,7 +55,7 @@ export default function NewReservation() {
   return (
     <div className="ribbon">
       <div className="form-container">
-        <h2>Book now</h2>
+        <h2>Book now test</h2>
 
         <form onSubmit={handleSubmit}>
           <label>Hotel</label>
