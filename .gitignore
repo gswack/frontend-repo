@@ -29,3 +29,4 @@ tests/test_ui/*
 tests/__pycache__/*
 videos
 trace.zip
+package-lock.json
