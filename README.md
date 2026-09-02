@@ -217,7 +217,11 @@ Test location: `tests/`
 
 Run tests:
 ```bash
+<<<<<<< HEAD
 pytest tests -vv
+=======
+uv run pytest tests -vv
+>>>>>>> dev
 ```
 
 ## Author
