@@ -1,4 +1,4 @@
-# Hotel Booking Frontend
+# Hotel Booking Platform - Frontend Repo
 
 This is the React-based frontend application for the Hotel Booking platform.
 
