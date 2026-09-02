@@ -31,3 +31,4 @@ videos
 trace.zip
 package-lock.json
 tests/*
+ tests/__pycache__/
